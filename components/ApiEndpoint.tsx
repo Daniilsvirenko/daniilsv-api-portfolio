@@ -40,41 +40,38 @@ export default function ApiEndpoint({
     };
 
     return (
-        <div className="border border-slate-800 rounded-lg overflow-hidden bg-[#0B0C10] mb-6 md:mb-8 w-full">
-            {/* Clickable Header */}
+        // FIX: max-w-full ensures the card never exceeds the screen width
+        <div className="border border-slate-800 rounded-lg overflow-hidden bg-[#0B0C10] mb-6 w-full max-w-full">
             <div
                 onClick={toggleOpen}
-                className="flex flex-col md:flex-row md:items-center gap-3 md:gap-4 p-4 cursor-pointer hover:bg-slate-900/50 transition-colors active:bg-slate-900 select-none"
+                className="flex flex-col md:flex-row md:items-center gap-3 p-4 cursor-pointer hover:bg-slate-900/50 transition-colors active:bg-slate-900"
             >
+                {/* Top Row on Mobile: Method + Chevron */}
                 <div className="flex items-center justify-between w-full md:w-auto">
-                    {/* Method Badge */}
-                    <div className={`px-3 py-1 rounded text-xs font-bold border ${methodColors[method]}`}>
+                    <div className={`px-3 py-1 rounded text-xs font-bold border shrink-0 ${methodColors[method]}`}>
                         {method}
                     </div>
-
-                    {/* Mobile Chevron */}
                     <div className="text-slate-500 md:hidden">
                         {isOpen ? <ChevronDown size={20} /> : <ChevronRight size={20} />}
                     </div>
                 </div>
 
-                {/* Path - breaks on mobile if too long */}
-                <div className="font-mono text-sm text-slate-300 flex-1 break-all md:break-normal">
+                {/* Path: FIX - Added 'break-all' so long paths wrap on mobile */}
+                <div className="font-mono text-sm text-slate-300 flex-1 break-all">
                     {path}
                 </div>
 
-                {/* Description */}
-                <div className="text-xs md:text-sm text-slate-500 opacity-80 md:opacity-100">
+                {/* Description: Hidden on very small screens if needed, or kept small */}
+                <div className="text-xs text-slate-500 md:text-sm">
                     {description}
                 </div>
 
                 {/* Desktop Chevron */}
-                <div className="text-slate-500 hidden md:block">
+                <div className="text-slate-500 hidden md:block shrink-0">
                     {isOpen ? <ChevronDown size={20} /> : <ChevronRight size={20} />}
                 </div>
             </div>
 
-            {/* Expanded Content */}
             <AnimatePresence>
                 {isOpen && (
                     <motion.div
@@ -83,31 +80,33 @@ export default function ApiEndpoint({
                         exit={{ height: 0, opacity: 0 }}
                         className="border-t border-slate-800 bg-[#0d1117]"
                     >
-                        {/* Request Bar */}
-                        <div className="p-3 md:p-4 border-b border-slate-800 flex justify-between items-center bg-slate-900/30">
+                        {/* Controls Bar */}
+                        <div className="p-3 border-b border-slate-800 flex justify-between items-center bg-slate-900/30">
                             <div className="font-mono text-xs text-slate-500">Example Request</div>
                             <button
                                 onClick={copyToClipboard}
                                 className="text-slate-500 hover:text-white transition-colors flex items-center gap-2 text-xs py-1 px-2 rounded hover:bg-slate-800"
                             >
                                 {copied ? <Check size={14} className="text-green-500" /> : <Copy size={14} />}
-                                {copied ? "Copied!" : "Copy cURL"}
+                                <span className="hidden sm:inline">{copied ? "Copied!" : "Copy cURL"}</span>
                             </button>
                         </div>
 
-                        {/* Code Snippet */}
+                        {/* Code Block: FIX - overflow-x-auto allows inner scrolling */}
                         <div className="p-4 font-mono text-xs md:text-sm text-slate-300 overflow-x-auto bg-black/20 whitespace-nowrap scrollbar-hide">
                             curl -X {method} https://daniil.dev/api{path}
                         </div>
 
-                        {/* Response Header */}
-                        <div className="p-3 md:p-4 border-t border-slate-800 border-b bg-slate-900/30">
+                        <div className="p-3 border-t border-slate-800 border-b bg-slate-900/30">
                             <div className="font-mono text-xs text-slate-500">Response (200 OK)</div>
                         </div>
 
-                        {/* JSON Response */}
-                        <div className="bg-[#0d1117]">
-                            <JsonViewer data={response} />
+                        {/* JSON Response Wrapper */}
+                        <div className="bg-[#0d1117] overflow-x-hidden">
+                            {/* Pass a max-width to the viewer container */}
+                            <div className="max-w-full overflow-x-auto">
+                                <JsonViewer data={response} />
+                            </div>
                         </div>
                     </motion.div>
                 )}

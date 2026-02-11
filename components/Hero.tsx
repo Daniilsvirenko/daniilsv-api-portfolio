@@ -24,27 +24,34 @@ export default function Hero() {
     }, []);
 
     return (
-        <section className="min-h-screen flex items-center justify-center pt-16 md:pt-0">
-            <div className="w-full max-w-[95vw] md:max-w-none md:w-[800px]">
+        <section className="min-h-[90vh] flex items-center justify-center pt-24 md:pt-10 px-4 md:px-0">
+            {/* FIX: Changed fixed width to w-full with a max-width constraint.
+         This ensures it fills the phone screen but stops growing on desktop.
+      */}
+            <div className="w-full max-w-3xl mx-auto">
 
-                {/* Terminal Window */}
-                <div className="bg-[#1e1e1e] rounded-lg shadow-2xl border border-slate-800 overflow-hidden mx-auto">
+                {/* Terminal Window Wrapper */}
+                <div className="bg-[#1e1e1e] rounded-lg shadow-2xl border border-slate-800 overflow-hidden w-full">
 
-                    {/* Mac-style Header */}
+                    {/* Header */}
                     <div className="flex items-center px-4 py-3 bg-[#2d2d2d] border-b border-black/50">
-                        <div className="flex gap-2">
+                        <div className="flex gap-2 shrink-0">
                             <div className="w-3 h-3 rounded-full bg-red-500/80" />
                             <div className="w-3 h-3 rounded-full bg-yellow-500/80" />
                             <div className="w-3 h-3 rounded-full bg-green-500/80" />
                         </div>
+                        {/* Truncate text so it doesn't break layout on tiny screens */}
                         <div className="flex-1 text-center text-xs font-mono text-slate-500 truncate px-4">
                             visitor@daniil.dev: ~
                         </div>
                     </div>
 
                     {/* Terminal Body */}
-                    <div className="p-4 md:p-8 font-mono text-xs md:text-base min-h-[350px] md:min-h-[400px]">
-                        <div className="flex items-center gap-2 text-green-400 mb-4 overflow-x-auto whitespace-pre scrollbar-hide">
+                    <div className="p-4 md:p-8 font-mono text-xs md:text-sm min-h-[300px] md:min-h-[400px]">
+                        {/* FIX: Added 'flex-wrap' and 'break-all' to prevent horizontal overflow 
+               If the command is too long, it will wrap to the next line.
+            */}
+                        <div className="flex flex-wrap items-center gap-2 text-green-400 mb-4 break-all">
                             <span className="shrink-0">$</span>
                             <span>{typedText}</span>
                             <motion.span
@@ -58,10 +65,16 @@ export default function Hero() {
                             <motion.div
                                 initial={{ opacity: 0, y: 10 }}
                                 animate={{ opacity: 1, y: 0 }}
+                                className="w-full overflow-hidden" // Ensure animation doesn't cause overflow
                             >
                                 <div className="text-slate-400 mb-2">HTTP/2 200 OK</div>
                                 <div className="text-slate-500 text-xs mb-4">content-type: application/json</div>
-                                <JsonViewer data={portfolioData.personal} />
+
+                                {/* FIX: The JsonViewer is wrapped to ensure it respects the parent width 
+                */}
+                                <div className="max-w-full overflow-x-auto">
+                                    <JsonViewer data={portfolioData.personal} />
+                                </div>
                             </motion.div>
                         )}
                     </div>

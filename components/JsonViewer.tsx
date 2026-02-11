@@ -12,18 +12,21 @@ interface JsonViewerProps {
 
 export default function JsonViewer({ data }: JsonViewerProps) {
     return (
-        <div className="rounded-md overflow-hidden text-sm overflow-x-auto">
+        // FIX: max-w-full prevents the pre tag from pushing the layout width
+        <div className="rounded-md overflow-hidden text-xs md:text-sm max-w-full">
             <SyntaxHighlighter
                 language="json"
                 style={vscDarkPlus}
                 customStyle={{
                     margin: 0,
-                    padding: '1.5rem',
+                    padding: '1rem',
                     background: 'transparent',
-                    fontSize: '0.9rem',
+                    fontSize: 'inherit',
                     lineHeight: '1.5',
                 }}
                 wrapLines={true}
+                // FIX: wrapLongLines forces text to stay inside instead of scrolling endlessly
+                wrapLongLines={false}
             >
                 {JSON.stringify(data, null, 2)}
             </SyntaxHighlighter>
