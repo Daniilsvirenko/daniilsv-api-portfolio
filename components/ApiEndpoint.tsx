@@ -40,7 +40,6 @@ export default function ApiEndpoint({
     };
 
     return (
-        // FIX: max-w-full ensures the card never exceeds the screen width
         <div className="border border-slate-800 rounded-lg overflow-hidden bg-[#0B0C10] mb-6 w-full max-w-full">
             <div
                 onClick={toggleOpen}
@@ -56,13 +55,13 @@ export default function ApiEndpoint({
                     </div>
                 </div>
 
-                {/* Path: FIX - Added 'break-all' so long paths wrap on mobile */}
-                <div className="font-mono text-sm text-slate-300 flex-1 break-all">
+                {/* Path: Responsive wrapping to fix vertical desktop issue */}
+                <div className="font-mono text-sm text-slate-300 flex-1 break-all md:break-normal md:whitespace-nowrap md:overflow-hidden md:text-ellipsis">
                     {path}
                 </div>
 
-                {/* Description: Hidden on very small screens if needed, or kept small */}
-                <div className="text-xs text-slate-500 md:text-sm">
+                {/* Description: Hidden/Smaller on mobile, standard on desktop */}
+                <div className="text-xs text-slate-500 md:text-sm shrink-0">
                     {description}
                 </div>
 
@@ -80,7 +79,6 @@ export default function ApiEndpoint({
                         exit={{ height: 0, opacity: 0 }}
                         className="border-t border-slate-800 bg-[#0d1117]"
                     >
-                        {/* Controls Bar */}
                         <div className="p-3 border-b border-slate-800 flex justify-between items-center bg-slate-900/30">
                             <div className="font-mono text-xs text-slate-500">Example Request</div>
                             <button
@@ -92,7 +90,6 @@ export default function ApiEndpoint({
                             </button>
                         </div>
 
-                        {/* Code Block: FIX - overflow-x-auto allows inner scrolling */}
                         <div className="p-4 font-mono text-xs md:text-sm text-slate-300 overflow-x-auto bg-black/20 whitespace-nowrap scrollbar-hide">
                             curl -X {method} https://daniil.dev/api{path}
                         </div>
@@ -101,12 +98,8 @@ export default function ApiEndpoint({
                             <div className="font-mono text-xs text-slate-500">Response (200 OK)</div>
                         </div>
 
-                        {/* JSON Response Wrapper */}
-                        <div className="bg-[#0d1117] overflow-x-hidden">
-                            {/* Pass a max-width to the viewer container */}
-                            <div className="max-w-full overflow-x-auto">
-                                <JsonViewer data={response} />
-                            </div>
+                        <div className="bg-[#0d1117] overflow-x-auto scrollbar-hide">
+                            <JsonViewer data={response} />
                         </div>
                     </motion.div>
                 )}
