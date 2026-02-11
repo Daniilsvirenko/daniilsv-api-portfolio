@@ -24,21 +24,26 @@ export default function Hero() {
     }, []);
 
     return (
-        <section className="min-h-screen flex items-center justify-center -mt-20">
-            <div className="w-full max-w-[90vw] md:max-w-none md:w-[800px]">
-                <div className="bg-[#1e1e1e] rounded-lg shadow-2xl border border-slate-800 overflow-hidden">
-                    <div className="flex items-center px-4 py-2 bg-[#2d2d2d] border-b border-black/50">
+        <section className="min-h-screen flex items-center justify-center pt-16 md:pt-0">
+            <div className="w-full max-w-[95vw] md:max-w-none md:w-[800px]">
+
+                {/* Terminal Window */}
+                <div className="bg-[#1e1e1e] rounded-lg shadow-2xl border border-slate-800 overflow-hidden mx-auto">
+
+                    {/* Mac-style Header */}
+                    <div className="flex items-center px-4 py-3 bg-[#2d2d2d] border-b border-black/50">
                         <div className="flex gap-2">
-                            <div className="w-3 h-3 rounded-full bg-red-500" />
-                            <div className="w-3 h-3 rounded-full bg-yellow-500" />
-                            <div className="w-3 h-3 rounded-full bg-green-500" />
+                            <div className="w-3 h-3 rounded-full bg-red-500/80" />
+                            <div className="w-3 h-3 rounded-full bg-yellow-500/80" />
+                            <div className="w-3 h-3 rounded-full bg-green-500/80" />
                         </div>
-                        <div className="flex-1 text-center text-xs font-mono text-slate-400">
-                            bash — 80x24
+                        <div className="flex-1 text-center text-xs font-mono text-slate-500 truncate px-4">
+                            visitor@daniil.dev: ~
                         </div>
                     </div>
 
-                    <div className="p-3 md:p-8 font-mono text-[10px] md:text-base min-h-[300px] md:min-h-[400px]">
+                    {/* Terminal Body */}
+                    <div className="p-4 md:p-8 font-mono text-xs md:text-base min-h-[350px] md:min-h-[400px]">
                         <div className="flex items-center gap-2 text-green-400 mb-4 overflow-x-auto whitespace-pre scrollbar-hide">
                             <span className="shrink-0">$</span>
                             <span>{typedText}</span>

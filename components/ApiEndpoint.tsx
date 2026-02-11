@@ -13,7 +13,6 @@ interface ApiEndpointProps {
     defaultOpen?: boolean;
 }
 
-
 export default function ApiEndpoint({
     method,
     path,
@@ -40,30 +39,42 @@ export default function ApiEndpoint({
         DELETE: "text-red-400 bg-red-500/10 border-red-500/20",
     };
 
-
     return (
-        <div className="border border-slate-800 rounded-lg overflow-hidden bg-[#0B0C10] mb-8">
+        <div className="border border-slate-800 rounded-lg overflow-hidden bg-[#0B0C10] mb-6 md:mb-8 w-full">
+            {/* Clickable Header */}
             <div
                 onClick={toggleOpen}
-                className="flex items-center gap-4 p-4 cursor-pointer hover:bg-slate-900/50 transition-colors"
+                className="flex flex-col md:flex-row md:items-center gap-3 md:gap-4 p-4 cursor-pointer hover:bg-slate-900/50 transition-colors active:bg-slate-900 select-none"
             >
-                <div className="text-slate-500">
-                    {isOpen ? <ChevronDown size={20} /> : <ChevronRight size={20} />}
+                <div className="flex items-center justify-between w-full md:w-auto">
+                    {/* Method Badge */}
+                    <div className={`px-3 py-1 rounded text-xs font-bold border ${methodColors[method]}`}>
+                        {method}
+                    </div>
+
+                    {/* Mobile Chevron */}
+                    <div className="text-slate-500 md:hidden">
+                        {isOpen ? <ChevronDown size={20} /> : <ChevronRight size={20} />}
+                    </div>
                 </div>
 
-                <div className={`px-3 py-1 rounded text-xs font-bold border ${methodColors[method]}`}>
-                    {method}
-                </div>
-
-                <div className="font-mono text-sm text-slate-300 flex-1">
+                {/* Path - breaks on mobile if too long */}
+                <div className="font-mono text-sm text-slate-300 flex-1 break-all md:break-normal">
                     {path}
                 </div>
 
-                <div className="text-sm text-slate-500 hidden md:block">
+                {/* Description */}
+                <div className="text-xs md:text-sm text-slate-500 opacity-80 md:opacity-100">
                     {description}
+                </div>
+
+                {/* Desktop Chevron */}
+                <div className="text-slate-500 hidden md:block">
+                    {isOpen ? <ChevronDown size={20} /> : <ChevronRight size={20} />}
                 </div>
             </div>
 
+            {/* Expanded Content */}
             <AnimatePresence>
                 {isOpen && (
                     <motion.div
@@ -72,25 +83,29 @@ export default function ApiEndpoint({
                         exit={{ height: 0, opacity: 0 }}
                         className="border-t border-slate-800 bg-[#0d1117]"
                     >
-                        <div className="p-4 border-b border-slate-800 flex justify-between items-center bg-slate-900/30">
+                        {/* Request Bar */}
+                        <div className="p-3 md:p-4 border-b border-slate-800 flex justify-between items-center bg-slate-900/30">
                             <div className="font-mono text-xs text-slate-500">Example Request</div>
                             <button
                                 onClick={copyToClipboard}
-                                className="text-slate-500 hover:text-white transition-colors flex items-center gap-2 text-xs"
+                                className="text-slate-500 hover:text-white transition-colors flex items-center gap-2 text-xs py-1 px-2 rounded hover:bg-slate-800"
                             >
                                 {copied ? <Check size={14} className="text-green-500" /> : <Copy size={14} />}
                                 {copied ? "Copied!" : "Copy cURL"}
                             </button>
                         </div>
 
-                        <div className="p-4 font-mono text-sm text-slate-300 overflow-x-auto bg-black/20">
+                        {/* Code Snippet */}
+                        <div className="p-4 font-mono text-xs md:text-sm text-slate-300 overflow-x-auto bg-black/20 whitespace-nowrap scrollbar-hide">
                             curl -X {method} https://daniil.dev/api{path}
                         </div>
 
-                        <div className="p-4 border-t border-slate-800 border-b bg-slate-900/30">
+                        {/* Response Header */}
+                        <div className="p-3 md:p-4 border-t border-slate-800 border-b bg-slate-900/30">
                             <div className="font-mono text-xs text-slate-500">Response (200 OK)</div>
                         </div>
 
+                        {/* JSON Response */}
                         <div className="bg-[#0d1117]">
                             <JsonViewer data={response} />
                         </div>
