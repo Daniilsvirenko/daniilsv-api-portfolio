@@ -40,6 +40,7 @@ export default function ApiEndpoint({
         DELETE: "text-red-400 bg-red-500/10 border-red-500/20",
     };
 
+
     return (
         <div className="border border-slate-800 rounded-lg overflow-hidden bg-[#0B0C10] mb-8">
             <div
