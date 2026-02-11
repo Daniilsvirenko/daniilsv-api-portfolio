@@ -25,7 +25,7 @@ export default function Hero() {
 
     return (
         <section className="min-h-screen flex items-center justify-center -mt-20">
-            <div className="w-full max-w-2xl">
+            <div className="w-full max-w-[90vw] md:max-w-none md:w-[800px]">
                 <div className="bg-[#1e1e1e] rounded-lg shadow-2xl border border-slate-800 overflow-hidden">
                     <div className="flex items-center px-4 py-2 bg-[#2d2d2d] border-b border-black/50">
                         <div className="flex gap-2">
@@ -38,14 +38,14 @@ export default function Hero() {
                         </div>
                     </div>
 
-                    <div className="p-4 md:p-6 font-mono text-xs md:text-sm min-h-[300px] md:min-h-[400px]">
-                        <div className="flex items-center gap-2 text-green-400 mb-4">
-                            <span>$</span>
+                    <div className="p-3 md:p-8 font-mono text-[10px] md:text-base min-h-[300px] md:min-h-[400px]">
+                        <div className="flex items-center gap-2 text-green-400 mb-4 overflow-x-auto whitespace-pre scrollbar-hide">
+                            <span className="shrink-0">$</span>
                             <span>{typedText}</span>
                             <motion.span
                                 animate={{ opacity: [0, 1] }}
                                 transition={{ repeat: Infinity, duration: 0.8 }}
-                                className="w-2 h-4 bg-green-400 block"
+                                className="w-2 h-4 bg-green-400 block shrink-0"
                             />
                         </div>
 
