@@ -10,7 +10,7 @@ export default function Home() {
   return (
     <div className="flex min-h-screen bg-[#0B0C10] selection:bg-green-500/30">
       <Sidebar />
-      <main className="md:ml-64 flex-1 p-4 md:p-10 space-y-20 max-w-5xl mx-auto dark:bg-[#0B0C10] transition-all duration-300">
+      <main className="md:ml-64 flex-1 pt-20 p-4 md:p-10 space-y-20 max-w-5xl mx-auto dark:bg-[#0B0C10] transition-all duration-300">
 
         <FadeIn>
           <Hero />

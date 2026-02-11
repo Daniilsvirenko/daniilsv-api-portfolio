@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Terminal, User, Briefcase, Code, Cpu, Send, Menu, X, BookOpen } from "lucide-react";
 import { motion } from "framer-motion";
 
@@ -15,29 +15,63 @@ const endpoints = [
 
 export default function Sidebar() {
     const [activepath, setActivePath] = useState("/about");
-
     const [isOpen, setIsOpen] = useState(false);
+    const isScrollingRef = useRef(false);
 
     const toggleSidebar = () => setIsOpen(!isOpen);
 
     const handleScroll = (id: string) => {
         setActivePath(id);
         setIsOpen(false); // Close mobile sidebar on selection
+        isScrollingRef.current = true;
+        setTimeout(() => {
+            isScrollingRef.current = false;
+        }, 1000);
+
         const element = document.getElementById(id.replace("/", ""));
         if (element) {
             element.scrollIntoView({ behavior: "smooth" });
         }
     };
 
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            (entries) => {
+                if (isScrollingRef.current) return;
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        setActivePath("/" + entry.target.id);
+                    }
+                });
+            },
+            { threshold: 0.5 }
+        );
+
+        endpoints.forEach((endpoint) => {
+            const id = endpoint.path.replace("/", "");
+            const element = document.getElementById(id);
+            if (element) observer.observe(element);
+        });
+
+        return () => observer.disconnect();
+    }, []);
+
     return (
         <>
-            {/* Mobile Toggle Button */}
-            <button
-                onClick={toggleSidebar}
-                className="fixed top-4 right-4 z-[60] p-2 bg-slate-800 text-white rounded-md md:hidden hover:bg-slate-700 transition-colors"
-            >
-                {isOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
+            {/* Mobile Header */}
+            <div className="md:hidden fixed top-0 left-0 right-0 h-16 bg-[#0B0C10]/90 backdrop-blur-sm border-b border-slate-800 z-40 flex items-center justify-between px-4">
+                <div className="flex items-center gap-2">
+                    <Terminal className="text-green-500" size={20} />
+                    <span className="text-white font-bold text-lg tracking-tight">Daniil.API</span>
+                </div>
+                <button
+                    onClick={toggleSidebar}
+                    className="p-2 text-slate-400 hover:text-white transition-colors"
+                    aria-label="Toggle Menu"
+                >
+                    {isOpen ? <X size={24} /> : <Menu size={24} />}
+                </button>
+            </div>
 
             {/* Overlay for mobile */}
             {isOpen && (
@@ -51,6 +85,7 @@ export default function Sidebar() {
                 className={`fixed left-0 top-0 h-screen w-64 bg-[#0B0C10] border-r border-slate-800 flex flex-col z-50 transition-transform duration-300 ease-in-out md:translate-x-0 ${isOpen ? "translate-x-0" : "-translate-x-full"
                     }`}
             >
+                {/* Desktop Header / Sidebar Top */}
                 <div className="p-6 border-b border-slate-800 flex items-center gap-2">
                     <Terminal className="text-green-500" size={24} />
                     <h1 className="text-white font-bold text-lg tracking-tight">

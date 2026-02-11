@@ -38,7 +38,7 @@ export default function Hero() {
                         </div>
                     </div>
 
-                    <div className="p-6 font-mono text-sm min-h-[400px]">
+                    <div className="p-4 md:p-6 font-mono text-xs md:text-sm min-h-[300px] md:min-h-[400px]">
                         <div className="flex items-center gap-2 text-green-400 mb-4">
                             <span>$</span>
                             <span>{typedText}</span>

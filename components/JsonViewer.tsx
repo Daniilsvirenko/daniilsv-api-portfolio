@@ -12,7 +12,7 @@ interface JsonViewerProps {
 
 export default function JsonViewer({ data }: JsonViewerProps) {
     return (
-        <div className="rounded-md overflow-hidden text-sm">
+        <div className="rounded-md overflow-hidden text-sm overflow-x-auto">
             <SyntaxHighlighter
                 language="json"
                 style={vscDarkPlus}
