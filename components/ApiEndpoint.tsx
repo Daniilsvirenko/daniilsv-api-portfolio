@@ -13,6 +13,7 @@ interface ApiEndpointProps {
     defaultOpen?: boolean;
 }
 
+
 export default function ApiEndpoint({
     method,
     path,
